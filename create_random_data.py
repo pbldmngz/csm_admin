@@ -17,5 +17,7 @@ def insertar_alumno():
     crud.crear("alumno", "", "{},'{}','{}','{}','{}','{}'"
     .format(a[0],a[5],a[1],a[2],a[3],a[6]))
 
+#def insertar materia_profesor y materia_alumno
+
 insertar_alumno()
 #Recuerda que para consola que podrá usar el usuario puedes utilizar re para evitar sql injection
