@@ -26,15 +26,15 @@ apellido = [ "Gomez", "Guerrero", "Cardenas", "Cardiel", "Cardona", "Cardoso", "
 "Santiago", "Arias", "Varga", "Carmona", "Crespo", "Roman", "Pastor", "Soto", "Saez", "Velasco", "Soler", "Moya", "Esteban", 
 "Parra", "Bravo", "Gallardo", "Rojas" ]
 
-def generador_persona (id, estudiante):
-    def generador_telefono ():
+def generar_persona (id, estudiante):
+    def generar_telefono ():
         return "".join(map(str,[random.randint(0,9) for x in range(10)]))
 
     datos = [id]
     datos.append(nombre[random.randint(0, len(nombre) - 1)])
     datos.append(apellido[random.randint(0, len(apellido) - 1)])
     datos.append(apellido[random.randint(0, len(apellido) - 1)])
-    datos.append(generador_telefono())
+    datos.append(generar_telefono())
 
     if estudiante: 
         datos.append("cetys.edu.mx")
@@ -45,5 +45,3 @@ def generador_persona (id, estudiante):
     .format(datos[1], datos[2], datos[0], datos[5])) #Correo
 
     return datos
-    
-print(generador_persona(1, True))
