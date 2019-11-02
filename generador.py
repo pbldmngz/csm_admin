@@ -1,4 +1,3 @@
-from crud import crear
 import random
 
 nombre = [ "Andrea", "David", "Baldomero", "Balduino", "Baldwin", "Baltasar", "Barry", "Bartolo", "Bartolomé", "Baruc", 
