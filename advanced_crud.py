@@ -1,7 +1,7 @@
 import crud
 
-#Pasar True de primer argumento para devolver todos los registros
-#Pasar True de segundo argumento para devolver profesores
+#Pasar True de primer argumento para devolver todos los registros #False para especificar
+#Pasar True de segundo argumento para devolver profesores #False para alumnos
 def ver(todos, bo):
     ar = ["Teléfono", "id_empleado", "telefono", "profesor"] if bo else ["Grupo", "id_alumno", "id_grupo", "alumno"]
     h = 0 if todos else input("Inserte ID: ")
@@ -17,4 +17,11 @@ def ver(todos, bo):
 
     print("-"*len(f))
 
-ver(True, True)
+def insertar():
+    v = input("Escriba 1 para ALUMNO, 2 para PROFESOR o 3 para SALIR")
+    if v == 1:
+        crud.crear("alumno", "", "")
+    else if v = 2:
+        crud.crear("profesor", "", "")
+    else:
+        break
