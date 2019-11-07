@@ -1,5 +1,7 @@
 import crud
 import create_random_data as crd
+from progressbar import *
+widgets = ['Test: ', Percentage(), ' ', Bar(marker='#',left='[',right=']'), ' ', ETA(), ' ']
 
 #Pasar True de primer argumento para devolver todos los registros #False para especificar
 #Pasar True de segundo argumento para devolver profesores #False para alumnos
@@ -19,12 +21,23 @@ def ver(todos, bo):
     print("-"*len(f))
 
 def gen_a_lot(p, a):
+    widgets[0] = "Creando profesores: "
+    pbar = ProgressBar(widgets=widgets, maxval=p)
+    pbar.start()
     for i in range(p):
         crd.insertar_profesor()
+        pbar.update(i)
+    pbar.finish()
+
+    widgets[0] = "Creando alumnos: "
+    pbar = ProgressBar(widgets=widgets, maxval=a)
+    pbar.start()
     for i in range(a):
         crd.insertar_alumno()
+        pbar.update(i)
+    pbar.finish() 
 
-def insertar():
+def insertar(): #Aún no se ha hecho nada
     while True:
         v = input("Escriba 1 para ALUMNO, 2 para PROFESOR o 3 para SALIR")
         if v == 1:
@@ -33,3 +46,9 @@ def insertar():
             crud.crear("profesor", "", "")
         else:
             break
+
+def reset_database(): #Cambiar a borrado uno por uno para la barra?
+    if input("¿Estás seguro de querer eliminar TODOS LOS REGISTROS asociados a 'ALUMNO'?").lower() == "y":
+        crud.eliminar("alumno", "1 = 1")
+    if input("¿Estás seguro de querer eliminar TODOS LOS REGISTROS asociados a 'PROFESOR'?").lower() == "y":
+        crud.eliminar("profesor", "1 = 1")
