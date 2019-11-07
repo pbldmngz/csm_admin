@@ -1,4 +1,5 @@
 import crud
+import create_random_data as crd
 
 #Pasar True de primer argumento para devolver todos los registros #False para especificar
 #Pasar True de segundo argumento para devolver profesores #False para alumnos
@@ -17,11 +18,18 @@ def ver(todos, bo):
 
     print("-"*len(f))
 
+def gen_a_lot(p, a):
+    for i in range(p):
+        crd.insertar_profesor()
+    for i in range(a):
+        crd.insertar_alumno()
+
 def insertar():
-    v = input("Escriba 1 para ALUMNO, 2 para PROFESOR o 3 para SALIR")
-    if v == 1:
-        crud.crear("alumno", "", "")
-    else if v = 2:
-        crud.crear("profesor", "", "")
-    else:
-        break
+    while True:
+        v = input("Escriba 1 para ALUMNO, 2 para PROFESOR o 3 para SALIR")
+        if v == 1:
+            crud.crear("alumno", "", "")
+        elif v == 2:
+            crud.crear("profesor", "", "")
+        else:
+            break

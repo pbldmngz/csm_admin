@@ -1,4 +1,8 @@
-from con_csm import do
-from crud import ver
+import advanced_crud as c
 
-print(ver("nombre, primer_apellido", "alumno", "1=1"))
+c.gen_a_lot(25, 500)
+
+#Por hacer:
+# Mostrar el avance del creador con una barra de carga o una tabla que muestre todo lo que se está haciendo
+# Colores
+# CRUD Manual
