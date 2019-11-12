@@ -1,4 +1,5 @@
 import crud
+import re
 import create_random_data as crd
 from progressbar import *
 widgets = ['Test: ', Percentage(), ' ', Bar(marker='#',left='[',right=']'), ' ', ETA(), ' ']
@@ -37,17 +38,48 @@ def gen_a_lot(p, a):
         pbar.update(i)
     pbar.finish() 
 
-def insertar(): #Aún no se ha hecho nada
+def insertar():
     while True:
-        v = input("Escriba 1 para ALUMNO, 2 para PROFESOR o 3 para SALIR")
-        if v == 1:
-            crud.crear("alumno", "", "")
-        elif v == 2:
-            crud.crear("profesor", "", "")
-        else:
-            break
+        try:
+            v = input("Escriba 1 para ALUMNO, 2 para PROFESOR o 3 para SALIR\n")
+            if int(v) == 1:
+                crud.crear("alumno", "", crear_persona(False))
+            elif int(v) == 2:
+                crud.crear("profesor", "", crear_persona(True))
+            else:
+                break
+        except ValueError:
+            print("No se recibió un número, intente otra vez")
+
+
+def crear_persona(profesor):
+    sr = r"\d{10}" if profesor else r"\d{1}"
+    sa = [0, "Nombre: ", "Primer apellido: ", "Segundo apellido: ", 
+    "Correo: ", "Telefono: " if profesor else "Grupo: "]
+
+    ar = [sa[0], 
+        input(sa[1]),
+        input(sa[2]),
+        input(sa[3]),
+        input(sa[4]),
+        input(sa[5])]
+
+    for i in range(1, 3):
+        while not re.match(r"\w\D{2,}", ar[i]):
+            ar[i] = input("\nEl {} que introdujo no es válido, intente otra vez"
+            .format(sa[i][:-2].lower()))
+
+    while not re.match(ar[4], r"\."):#Falta arreglarlo
+        ar[4] = input("\nEl correo que introdujo no es válido, intente otra vez")
+
+    while not re.match(sr, ar[5]):
+        ar[5] = input("\nEl {} que introdujo no es válido, intente otra vez".format(sa[5][:-2].lower()))
+
+    return "{}, '{}', '{}', '{}', '{}', '{}'".format(
+        ar[0], ar[1], ar[2], ar[3], ar[4], ar[5])
 
 def reset_database(): #Cambiar a borrado uno por uno para la barra?
+    print("ENTRANDO A BORRADO TOTAL, CONTINUE BAJO SU PROPIO RIESGO")
     if input("¿Estás seguro de querer eliminar TODOS LOS REGISTROS asociados a 'ALUMNO'?").lower() == "y":
         crud.eliminar("alumno", "1 = 1")
     if input("¿Estás seguro de querer eliminar TODOS LOS REGISTROS asociados a 'PROFESOR'?").lower() == "y":
