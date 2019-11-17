@@ -15,3 +15,6 @@ def modificar (table, original1, new1, original2, new2):
 def eliminar (table, cond):
     return do("delete from {} where {}"
     .format(table, cond), True)
+
+def direct(statement):
+    return do(statement, True)

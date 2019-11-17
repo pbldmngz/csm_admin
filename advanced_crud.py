@@ -48,21 +48,27 @@ def gen_a_lot(p, a):
         pbar.update(i)
     pbar.finish() 
 
-def insertar():
-    while True:
-        try:
-            v = input("Escriba 1 para ALUMNO, 2 para PROFESOR o 3 para SALIR\n")
-            if int(v) == 1:
-                crud.crear("alumno", "", crear_persona(False))
-            elif int(v) == 2:
-                crud.crear("profesor", "", crear_persona(True))
-            else:
-                break
-        except ValueError:
-            print("No se recibió un número, intente otra vez:\n")
-        except my.IntegrityError as e:
-            print("\nEl correo ya está en uso, cancelando inserción\n")
+def insertar(bol):
+    try:
+        if bol:
+            crud.crear("alumno", "", crear_persona(False))
+        else:
+            crud.crear("profesor", "", crear_persona(True))
+    except ValueError:
+        print("No se recibió un número, intente otra vez:\n")
+    except my.IntegrityError as e:
+        print("\nEl correo ya está en uso, cancelando inserción\n")
 
+    if bol: print("\nALUMNO INSERTADO CORRECTAMENTE\n")
+    else: print("\nPROFESOR INSERTADO CORRECTAMENTE\n")
+
+def text_valid(text): #Solo letras
+    while re.match(r"^[A-Za-z]*$", text) == None or text == "":
+        test = input("Fortmato inválido, verifique el texto y pruebe otra vez: ")
+
+def num_valid(text): #Solo letras
+    while re.match(r"^[0-9]*$", text) == None or text == "":
+        test = input("Fortmato inválido, verifique el número y pruebe otra vez: ")
 
 def crear_persona(profesor): #True / False
     sa = [0, "Nombre: ", "Primer apellido: ", "Segundo apellido: ", 
@@ -91,7 +97,53 @@ def crear_persona(profesor): #True / False
 
 def reset_database(): #Cambiar a borrado uno por uno para la barra?
     print("ENTRANDO A BORRADO TOTAL, CONTINUE BAJO SU PROPIO RIESGO")
-    if input("¿Estás seguro de querer eliminar TODOS LOS REGISTROS asociados a 'ALUMNO'?").lower() == "y":
+    if input("¿Estás seguro de querer eliminar TODOS LOS REGISTROS asociados a 'ALUMNO'? (Y/N)\n").lower() == "y":
         crud.eliminar("alumno", "1 = 1")
-    if input("¿Estás seguro de querer eliminar TODOS LOS REGISTROS asociados a 'PROFESOR'?").lower() == "y":
+        print("Eliminados todos los alumnos")
+    if input("¿Estás seguro de querer eliminar TODOS LOS REGISTROS asociados a 'PROFESOR'? (Y/N)\n").lower() == "y":
         crud.eliminar("profesor", "1 = 1")
+        print("Eliminados todos los profesores")
+
+def borrar(alumno): #True/False
+    print("Procediendo a borrar, inserte no numéricos para cancelar")
+
+    a = "alumno" if alumno else "profesor"
+    b = "id_alumno" if alumno else "id_empleado"
+    c = input("Inserte ID: ")
+
+    try: 
+        c = int(c)
+        crud.eliminar(a, "{} = {}".format(b,c))
+        print("\nBORRADO EXITOSO\n")
+    except ValueError:
+        print("\nCANCELANDO OPERACIÓN\n")
+    except: 
+        print("\nError desconocido, cancelando...\n")
+    
+
+def modificar(alumno): #True/False
+    print("Procediendo a actualizar, inserte no numéricos para cancelar")
+
+    a = "alumno" if alumno else "profesor"
+    b = "id_alumno" if alumno else "id_empleado"
+    c = input("Inserte ID: ")
+
+    #DATOS A MODIFICAR:
+    # NOMBRE
+    # APELLIDO PRIMARIO
+    # APELLIDO SECUNDARIO
+    # CORREO
+    # GRUPO/TELÉFONO
+
+    try: 
+        c = int(c)
+        #crud.modificar() o #direct(statement):
+        print("\nACTUALIZACIÓN EXITOSA\n")
+    except ValueError:
+        print("\nCANCELANDO OPERACIÓN\n")
+    except: 
+        print("\nError desconocido, cancelando...\n")
+
+####FALTA ESTO:
+# Averiguar por qué a veces al terminar una operación dentro de un submenú se activa otra opción sin querer
+# El método modificar (sólo es esto adaptado para profesores y alumnos)
