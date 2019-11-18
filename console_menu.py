@@ -1,9 +1,11 @@
 import keyboard
 import os
 import advanced_crud as ac
+import colorama as c
+c.init(autoreset=True)
 
 clear = lambda: os.system('cls')
-selected = 1
+selected = 5
 limit = 4
 
 submenu = 0
@@ -18,7 +20,7 @@ def show_menu():
     limit = 5
     setter()
     clear()
-    opt = ["", "VER REGISTROS", "INSERTAR REGISTRO ", "ELIMINAR REGISTRO", "MODIFICAR REGISTRO", "AYUDA"]
+    opt = ["", "VER REGISTROS", "INSERTAR REGISTRO ", "ELIMINAR REGISTRO", "MODIFICAR REGISTRO", c.Fore.CYAN + "AYUDA" + c.Fore.RESET]
     defin = ["", "Ver datos de alumnos o profesores", "Dar de alta nuevos estudiantes y profesores",
     "Eliminar registros disponibles directamente en la base de datos", "Cambiar datos a alumnos y profesores",
     "MANUAL DE USO:\n - Flechas de teclado UP y DOWN para desplazarse por los menús\n - ENTER para aceptar\n - ESC para regresar\n - Usar el teclado cuando se le solicite escribir"]
@@ -45,7 +47,7 @@ def show_sm2():
     limit = 3
     setter()
     clear()
-    opt = ["", "INSERTAR ALUMNO", "INSERTAR PROFESOR", "INSERTAR TEST-DATA"]
+    opt = ["", "INSERTAR ALUMNO", "INSERTAR PROFESOR", c.Fore.RED + "INSERTAR TEST-DATA" + c.Fore.RESET]
     print("Elige una opción:")
     for i in range(1, len(opt)):
         print("{1} {0}. {3:25} {2}".format(i, ">" if selected == i else " ", "<" if selected == i else " ", opt[i]))
@@ -56,7 +58,7 @@ def show_sm3():
     limit = 3
     setter()
     clear()
-    opt = ["", "ELIMINAR ALUMNO", "ELIMINAR PROFESOR", "ELIMINAR TODO (TEST)"]
+    opt = ["", "ELIMINAR ALUMNO", "ELIMINAR PROFESOR", c.Fore.RED + "ELIMINAR TODO (TEST)" + c.Fore.RESET]
     print("Elige una opción:")
     for i in range(1, len(opt)):
         print("{1} {0}. {3:25} {2}".format(i, ">" if selected == i else " ", "<" if selected == i else " ", opt[i]))
@@ -181,16 +183,16 @@ def toDo():
             ac.insertar(False)
         elif selected == 3: 
             while True:
-                p = input("¿Cuántos profesores? \n")
-                a = input("¿Cuántos alumnos? \n")
+                p = input(c.Fore.CYAN + "¿Cuántos profesores? \n")
+                a = input(c.Fore.CYAN + "¿Cuántos alumnos? \n")
                 try:
                     p = int(p)
                     a = int(a)
                     break
-                except: print("Formato incorrecto, intente otra vez")
+                except: print(c.Fore.YELLOW + "Formato incorrecto, intente otra vez")
             try:
                 ac.gen_a_lot(p, a)
-            except: print("Un error ha suscedido, cancelando...")
+            except: print(c.Fore.RED + "Un error ha suscedido, cancelando...")
         os.system("pause")
     
     elif submenu == 3:
@@ -213,8 +215,6 @@ def toDo():
         
     
     basic()
-    #show_menu()
-    #Si está seleccionado algo mostrar abajo la definición
 
 def basic():
     keyboard.add_hotkey('up', up)
@@ -225,5 +225,3 @@ def basic():
 show_menu()
 basic()
 keyboard.wait()
-
-#Siguiente paso hacer menus anidados
