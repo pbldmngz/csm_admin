@@ -41,16 +41,20 @@ def gen_a_lot(p, a):
     pbar = ProgressBar(widgets=widgets, maxval=p)
     pbar.start()
     for i in range(p):
-        crd.insertar_profesor()
-        pbar.update(i)
+        try:
+            crd.insertar_profesor()
+            pbar.update(i)
+        except: print("Fallo")
     pbar.finish()
 
     widgets[0] = "Creando alumnos: "
     pbar = ProgressBar(widgets=widgets, maxval=a)
     pbar.start()
     for i in range(a):
-        crd.insertar_alumno()
-        pbar.update(i)
+        try:
+            crd.insertar_alumno()
+            pbar.update(i)
+        except: print("Fallo")
     pbar.finish() 
 
 def insertar(bol):
@@ -117,11 +121,11 @@ def borrar(alumno): #True/False
 
     a = "alumno" if alumno else "profesor"
     b = "id_alumno" if alumno else "id_empleado"
-    c = input("Inserte ID: ")
+    e = input("Inserte ID: ")
 
     try: 
-        c = int(c)
-        crud.eliminar(a, "{} = {}".format(b,c))
+        e = int(e)
+        crud.eliminar(a, "{} = {}".format(b,e))
         print(c.Fore.GREEN + "\nBORRADO EXITOSO\n")
     except ValueError:
         print(c.Fore.RED + "\nCANCELANDO OPERACIÓN\n")
@@ -143,9 +147,25 @@ def modificar(alumno): #True/False
         e = int(e)
         d = list(crud.ver("{},{},{},{},{}".format(b2[0], b2[1], b2[2], b2[3], b2[4]), a, "{} = {}".format(b, e))[0])
 
-        for i in range(0, 5):
+        for i in range(0, 3):
             temp = input("{} --> ".format(d[i]))
             if temp != "": d[i] = temp
+            while not re.match(r"\w\D{2,}", d[i]):
+                d[i] = input(c.Fore.YELLOW + "{} no es un {} válido, intente otra vez\n"
+                .format(d[i], b2[i].lower()) + c.Fore.RESET)
+
+        temp = input("{} --> ".format(d[3]))
+        if temp != "": d[3] = temp
+
+        while not re.match(r".+\@(\w\D{2,})\..*", d[3]):
+            d[3] = input(c.Fore.YELLOW + "El correo que introdujo no es válido, intente otra vez\n" + c.Fore.RESET)
+
+        temp = input("{} --> ".format(d[4]))
+        if temp != "": d[4] = temp
+
+        while not re.match(r"\d", d[4]):
+            d[4] = input(c.Fore.YELLOW + "{} no es un {} válido, intente otra vez\n"
+            .format(d[i], b2[4].lower()) + c.Fore.RESET)
 
         for i in range(0,5):
             crud.modificar(a, b2[i], "'" + d[i] + "'", b, e)

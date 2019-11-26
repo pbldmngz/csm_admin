@@ -4,8 +4,10 @@ import random
 import re
 
 def get_next_id(table, col):
-    return int(re.sub(r'[\D_]+', '', str(crud
-    .ver("max({})".format(col), table, "1 = 1")))) + 1
+    try:
+        return int(re.sub(r'[\D_]+', '', str(crud
+        .ver("max({})".format(col), table, "1 = 1")))) + 1
+    except: return 0
     #Obtener el index donde debe ser colocado
 
 def insertar_materia(alumno, a):

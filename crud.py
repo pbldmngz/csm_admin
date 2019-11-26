@@ -5,6 +5,9 @@ def ver (col, table, cond):
     .format(col, table, cond), False)
 
 def crear (table, cond, data):
+    print("insert into {} ({}) values ({})"
+    .format(table, cond, data), True)
+
     return do("insert into {} ({}) values ({})"
     .format(table, cond, data), True)
 

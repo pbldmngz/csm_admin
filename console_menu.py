@@ -119,6 +119,8 @@ def r_menu():
 
     selected = 1
     
+    clear()
+
     if not control: 
         submenu = 0
 
@@ -184,15 +186,17 @@ def toDo():
         elif selected == 3: 
             while True:
                 p = input(c.Fore.CYAN + "¿Cuántos profesores? \n")
+                print("")
                 a = input(c.Fore.CYAN + "¿Cuántos alumnos? \n")
                 try:
                     p = int(p)
                     a = int(a)
                     break
                 except: print(c.Fore.YELLOW + "Formato incorrecto, intente otra vez")
-            try:
-                ac.gen_a_lot(p, a)
-            except: print(c.Fore.RED + "Un error ha suscedido, cancelando...")
+            ac.gen_a_lot(p, a)
+            #try:
+               # ac.gen_a_lot(p, a)
+            #except: print(c.Fore.RED + "Un error ha suscedido, cancelando...")
         os.system("pause")
     
     elif submenu == 3:
